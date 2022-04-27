@@ -55,7 +55,7 @@ X, Y, Z = np.mgrid[[slice(None, pool_size[ax] // voxel_size - 1) for ax in axes]
 
 def compute_firing_rate_map(neuron: str) -> pd.DataFrame:
     """Computes the firing rate of the given neuron for all voxels."""
-    spikes_per_nonempy_voxel = (
+    spikes_per_nonempty_voxel = (
         behav.join(spikes.loc[lambda df: df["neuron"] == neuron], how="inner")
         .reset_index()
         .groupby(bin_cols)["msec"]
@@ -65,7 +65,7 @@ def compute_firing_rate_map(neuron: str) -> pd.DataFrame:
     )
 
     return (
-        (spikes_per_nonempy_voxel * voxels)
+        (spikes_per_nonempty_voxel * voxels)
         .fillna(0)
         .pipe(lambda df: df / df.max().max())
     )
@@ -135,7 +135,7 @@ app.layout = html.Div(
         ),
         html.Div(id="fig"),
     ],
-    style=dict(marginTop=50, marginLeft=100, marginRight=100, marginBottom=50),
+    style=dict(marginTop=50, marginBottom=50, marginLeft=100, marginRight=100),
 )
 
 # define callback
