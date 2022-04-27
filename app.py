@@ -6,12 +6,13 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 from itertools import product
 from plotly import graph_objects as go
+from plotly.colors import get_colorscale
 
 
 # read behavioral data and construct movement trace
 
 axes = ["x", "y", "z"]
-behav = pd.read_parquet("data/behav_sim.parquet").set_index("msec")
+behav = pd.read_parquet("app_data/behav_sim.parquet").set_index("msec")
 sampling_times = np.arange(0, behav.shape[0], 1000)
 pos_dict = {ax: behav.loc[sampling_times, f"{ax}_position"].values for ax in axes}
 line_style = dict(color="black", width=0.5)
@@ -20,12 +21,13 @@ movement_trace = dict(type="scatter3d", mode="lines", line=line_style, **pos_dic
 
 # read neural data and create dropdown
 
-spikes = pd.read_parquet("data/spikes_sim.parquet").set_index("msec")
+spikes = pd.read_parquet("app_data/spikes_sim.parquet").set_index("msec")
 neurons = spikes["neuron"].value_counts().index.tolist()
 neuron_dropdown = dcc.Dropdown(
     id="neuron_dd",
     options=[dict(label=neuron, value=neuron) for neuron in neurons],
     value=neurons[0],
+    style=dict(fontsize=20, width=500, marginTop=20),
 )
 
 
@@ -48,15 +50,17 @@ voxels = (
     .assign(msec=1)
     .pipe(spatial_pivot)
 )
-X, Y, Z = np.mgrid[[slice(None, pool_size[ax] // voxel_size - 1) for ax in axes]]
+X, Y, Z = np.mgrid[[slice(None, pool_size[ax] // voxel_size - 1) for ax in axes]] * 10
 
 
 def compute_firing_rate_map(neuron: str) -> pd.DataFrame:
     """Computes the firing rate of the given neuron for all voxels."""
     spikes_per_nonempy_voxel = (
         behav.join(spikes.loc[lambda df: df["neuron"] == neuron], how="inner")
+        .reset_index()
         .groupby(bin_cols)["msec"]
         .count()
+        .reset_index()
         .pipe(spatial_pivot)
     )
 
@@ -71,12 +75,15 @@ def compute_firing_rate_map(neuron: str) -> pd.DataFrame:
 
 fig_layout = dict(
     width=1200,
-    height=800,
-    scene=dict(aspectmode="manual", aspectratio=dict(x=0.6, y=0.3, z=0.1)),
+    height=500,
+    scene=dict(aspectmode="manual", aspectratio=dict(x=2, y=1, z=0.3)),
     scene_xaxis_showticklabels=True,
     scene_yaxis_showticklabels=True,
     scene_zaxis_showticklabels=True,
+    margin=dict(t=0, b=0, l=0, r=0),
 )
+
+colorscale = get_colorscale("Viridis")[:-1] + [[1.0, "rgba(255, 255, 255, 0)"]]
 
 
 def firing_heatmap(neuron: str) -> go.Figure:
@@ -90,6 +97,8 @@ def firing_heatmap(neuron: str) -> go.Figure:
                 y=Y.flatten(),
                 z=Z.flatten(),
                 value=firing_rate_map.values.flatten(),
+                colorscale=colorscale,
+                reversescale=True,
                 isomin=0,
                 isomax=1,
                 surface_count=25,
@@ -120,9 +129,13 @@ app = dash.Dash(
 app.layout = html.Div(
     children=[
         html.H1("Firing rate heatmap"),
-        html.Div(neuron_dropdown),
+        html.Div(
+            children=[html.H3("select neuron below"), neuron_dropdown],
+            style=dict(marginTop=20),
+        ),
         html.Div(id="fig"),
-    ]
+    ],
+    style=dict(marginTop=50, marginLeft=100, marginRight=100, marginBottom=50),
 )
 
 # define callback
