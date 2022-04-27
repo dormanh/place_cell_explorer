@@ -12,7 +12,7 @@ from plotly.colors import get_colorscale
 # read behavioral data and construct movement trace
 
 axes = ["x", "y", "z"]
-behav = pd.read_parquet("app_data/behav_sim.parquet").set_index("msec")
+behav = pd.read_parquet("data/behav_sim.parquet").set_index("msec")
 sampling_times = np.arange(0, behav.shape[0], 1000)
 pos_dict = {ax: behav.loc[sampling_times, f"{ax}_position"].values for ax in axes}
 line_style = dict(color="black", width=0.5)
@@ -21,7 +21,7 @@ movement_trace = dict(type="scatter3d", mode="lines", line=line_style, **pos_dic
 
 # read neural data and create dropdown
 
-spikes = pd.read_parquet("app_data/spikes_sim.parquet").set_index("msec")
+spikes = pd.read_parquet("data/spikes_sim.parquet").set_index("msec")
 neurons = spikes["neuron"].value_counts().index.tolist()
 neuron_dropdown = dcc.Dropdown(
     id="neuron_dd",
