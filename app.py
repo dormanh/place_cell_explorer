@@ -12,7 +12,7 @@ from plot_tools import construct_movement_trace, construct_firing_heatmap
 behav = read_parquet_from_bucket("behav").set_index("msec")
 movement_trace = construct_movement_trace(behav)
 spikes = read_parquet_from_bucket("spikes").set_index("msec")
-neurons = spikes["neuron"].value_counts().index.tolist()
+neurons = spikes["neuron"].sort_values().index.tolist()
 neuron_dropdown = dcc.Dropdown(
     id="neuron_dd",
     options=[dict(label=neuron, value=neuron) for neuron in neurons],
