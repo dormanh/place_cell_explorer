@@ -8,7 +8,7 @@ The dashboard allows the user to choose from a dropdown list of neurons, and dis
 
 ## Usage
 
-### Data
+### Data structure and access
 
 The data originally used in this project is not public. To operate the app using your own data, you need to upload it to an s3 bucket and set the corresponding environment variables:
 * `AWS_BUCKET`
