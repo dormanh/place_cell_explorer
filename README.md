@@ -8,9 +8,11 @@ The dashboard allows the user to choose from a dropdown list of neurons, and dis
 
 ## Usage
 
+[Click here](https://place-cell-explorer.herokuapp.com/) to see the dashboard.
+
 ### Data structure and access
 
-The data originally used in this project is not public. To operate the app using your own data, you need to upload it to an s3 bucket and set the corresponding environment variables:
+The data presented on the dashboard above is currently not public. To operate the app using your own data, you need to upload it to an s3 bucket and set the corresponding environment variables:
 * `AWS_BUCKET`
 * `AWS_ACCESS_KEY_ID`
 * `AWS_SECRET_ACCESS_KEY`
