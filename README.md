@@ -19,11 +19,21 @@ The app assumes the following data structure:
 
 * a `behav.parquet` file containing behavioral records
 
-'|    |   msec |   x_position |   y_position |   z_position |   x_bin |   y_bin |   z_bin |\n|---:|-------:|-------------:|-------------:|-------------:|--------:|--------:|--------:|\n|  0 |      0 |          168 |      25.1336 |      51.9393 |     160 |      20 |      50 |\n|  1 |      1 |          168 |      25.1527 |      51.9307 |     160 |      20 |      50 |\n|  2 |      2 |          168 |      25.1718 |      51.922  |     160 |      20 |      50 |'
+|    |        msec |   x_position |   y_position |   z_position |   x_bin |   y_bin |   z_bin |
+|---:|------------:|-------------:|-------------:|-------------:|--------:|--------:|--------:|
+|  0 | 1.1391e+06  |      240.629 |      18.6601 |      16.9011 |     240 |      10 |      10 |
+|  1 | 1.4897e+06  |      343.76  |      38.9883 |      27.8938 |     340 |      30 |      20 |
+|  2 | 1.78567e+06 |      323.788 |      25.6903 |      35.292  |     320 |      20 |      30 |
 
 * a `spikes.parquet` file containing the results of spike sorting
 
-'|    | neuron           |    msec |\n|---:|:-----------------|--------:|\n|  0 | vibrant neuron   | 1156811 |\n|  1 | cloudy neuron    |  357242 |\n|  2 | ambitious neuron | 1613955 |'
+|    | neuron             |    msec |
+|---:|:-------------------|--------:|
+|  0 | melancholic neuron | 1347444 |
+|  1 | cloudy neuron      |  750765 |
+|  2 | wicked neuron      | 1293642 |
+
+You may have to modify additional global variables in `preprocess.py` and `plot_tools.py` to accomodate the app to the specifics of your data.
 
 ### Running the app
 
