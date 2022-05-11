@@ -12,4 +12,7 @@ Usage:
 
 `python app.py`
 
-<font size="8"> *Note: In order not to convey too much information - as this is part of an ongoing research - neurons are identified with randomly assigned adjectives, and their firing rates are normalized to 1. </font>
+
+<p style="font-size:10pt; font-style:italic">
+    *Note: In order not to convey too much information - as this is part of an ongoing research - neurons are identified with randomly assigned adjectives, and their firing rates are normalized to 1.
+</p>
