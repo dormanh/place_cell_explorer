@@ -1,12 +1,13 @@
 import boto3
 import pandas as pd
+import os
 
 from pathlib import Path
 
 
 ENDPOINT = "https://s3.eu-de.cloud-object-storage.appdomain.cloud"
 S3 = boto3.client("s3", endpoint_url=ENDPOINT)
-BUCKET = "hanga-ibm-data"
+BUCKET = os.environ["AWS_BUCKET"]
 
 
 def read_parquet_from_bucket(key: str) -> pd.DataFrame:
