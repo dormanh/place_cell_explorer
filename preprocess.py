@@ -19,7 +19,7 @@ def to_spatial_pivot(df: pd.DataFrame) -> pd.DataFrame:
 
 def compute_all_voxels(pool_size: dict, voxel_size: float) -> pd.DataFrame:
     """
-    Returns an uninformative spatial pivot table containing all voxels boundaries
+    Returns an uninformative spatial pivot table containing all voxel boundaries
     as indices. This is necessary, because we have to provide data about all the
     voxels - even empty ones - in order to construct the firing rate heatmap.
     """
