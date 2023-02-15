@@ -8,7 +8,7 @@ The dashboard allows the user to choose from a dropdown list of neurons, and dis
 
 ## Usage
 
-[**Click here**](https://place-cell-explorer.herokuapp.com/) to see the dashboard.
+Refer to this [documentation](https://devcenter.heroku.com/articles/git) for deployment on Heroku.
 
 ### Data structure and access
 
